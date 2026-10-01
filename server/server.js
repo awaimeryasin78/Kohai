@@ -31,8 +31,10 @@ app.get('/health', (req, res) => res.status(200).json({ status: 'healthy', times
 
 // API Routes
 app.use('/api/list', require('./routes/listRoutes'));
-app.use('/api/anime', require('./routes/animeRoutes'));
-app.use('/api/drama', require('./routes/dramaRoutes'));
+
+// Update these to point to the actual file: mediaRoutes.js
+app.use('/api/anime', require('./routes/mediaRoutes'));
+app.use('/api/drama', require('./routes/mediaRoutes'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
