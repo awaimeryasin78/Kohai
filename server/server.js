@@ -29,12 +29,12 @@ app.use(express.json());
 // Health check endpoint for Render monitoring
 app.get('/health', (req, res) => res.status(200).json({ status: 'healthy', timestamp: new Date() }));
 
+
 // API Routes
 app.use('/api/list', require('./routes/listRoutes'));
 
-// Update these to point to the actual file: mediaRoutes.js
-app.use('/api/anime', require('./routes/mediaRoutes'));
-app.use('/api/drama', require('./routes/mediaRoutes'));
+// This one line correctly creates both /api/anime and /api/drama
+app.use('/api', require('./routes/mediaRoutes')); 
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

@@ -3,17 +3,22 @@ import { useApp } from '../context/AppContext';
 import { Card } from './Card';
 
 export const MyListPage = ({ onSelect }) => {
-  const { myList, removeItem, addItem } = useApp();
+  const { myList: rawList, removeItem, addItem } = useApp();
+  
+  // This single line protects the entire file! If rawList is undefined, it becomes an empty array.
+  const myList = rawList || []; 
+
   const [seg, setSeg] = useState('all');
   const [view, setView] = useState('grid');
 
-  const watched = myList.filter((item) => item.status === 'w');
-  const toWatch = myList.filter((item) => item.status === 't');
+      const filteredList = myList?.filter(item => item.status === 'watching') || [];
+      const watched = myList?.filter((item) => item.status === 'w') || [];
+      const toWatch = myList?.filter((item) => item.status === 't') || [];
 
-  const totalTitles = myList.length;
-  const totalWatched = watched.length;
+      const totalTitles = myList.length;
+      const totalWatched = watched.length;
 
-  const totalHours = Math.round(
+      const totalHours = Math.round(
     watched.reduce((acc, item) => {
       const ep = item.titleSnapshot?.episodes || 12;
       const factor = item.mediaType === 'anime' ? 0.4 : 1.0;
