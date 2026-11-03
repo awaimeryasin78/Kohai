@@ -230,6 +230,142 @@ nav {
 .hero.drama { background: linear-gradient(120deg, #0E6E86, #19C6B0 70%, #7C5CFF); }
 .hero.list  { background: linear-gradient(120deg, #4B2FD6, #C2306A); min-height: 0; padding: 34px; margin-bottom: 24px; }
 
+.hero.my-list-hero {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 28px;
+  justify-content: space-between;
+  height: 208px;
+  min-height: 208px;
+  padding-block: 16px;
+  isolation: isolate;
+}
+
+.my-list-hero .my-list-copy {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  max-width: 62%;
+}
+
+.my-list-art {
+  position: relative;
+  flex: 0 0 300px;
+  height: 144px;
+  margin-right: 12px;
+}
+
+.my-list-art-glow {
+  position: absolute;
+  top: 50%;
+  right: 24px;
+  width: 150px;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.02) 68%);
+  box-shadow: 0 0 44px rgba(255, 255, 255, 0.16);
+  transform: translateY(-50%);
+}
+
+.my-list-posters {
+  position: absolute;
+  inset: 0;
+}
+
+.my-list-poster {
+  position: absolute;
+  top: 11px;
+  width: 82px;
+  height: 122px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.52);
+  border-radius: 12px;
+  box-shadow: 0 12px 26px rgba(22, 8, 39, 0.4);
+  color: #fff;
+}
+
+.my-list-poster:nth-child(1) {
+  left: 22px;
+  transform: rotate(-13deg) translateY(7px);
+}
+
+.my-list-poster:nth-child(2) {
+  left: 91px;
+  top: 3px;
+  z-index: 1;
+  transform: rotate(-1deg);
+}
+
+.my-list-poster:nth-child(3) {
+  left: 160px;
+  transform: rotate(12deg) translateY(7px);
+}
+
+.my-list-poster::after {
+  position: absolute;
+  inset: 35% 0 0;
+  background: linear-gradient(transparent, rgba(13, 8, 28, 0.88));
+  content: "";
+}
+
+.my-list-poster img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.my-list-poster b {
+  position: absolute;
+  top: 2px;
+  right: 5px;
+  color: rgba(255, 255, 255, 0.8);
+  font: 800 3.4rem Sora, sans-serif;
+}
+
+.my-list-poster span {
+  position: absolute;
+  right: 6px;
+  bottom: 8px;
+  left: 6px;
+  z-index: 1;
+  overflow: hidden;
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.my-list-art-count {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+  background: rgba(35, 18, 59, 0.76);
+  box-shadow: 0 8px 20px rgba(20, 7, 37, 0.24);
+  color: #fff;
+  backdrop-filter: blur(12px);
+}
+
+.my-list-art-count b {
+  font-size: 0.95rem;
+}
+
+.my-list-art-count span {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.68rem;
+}
+
 .hero .hp {
   flex: none;
   width: 150px;
@@ -604,6 +740,85 @@ select:hover, .chip:hover { border-color: var(--acc); transform: translateY(-2px
     border-radius: 22px;
   }
 
+  .hero.my-list-hero {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    height: auto;
+    min-height: 0;
+    padding: 18px 16px;
+  }
+
+  .my-list-hero .my-list-copy {
+    flex: 1 1 0;
+    max-width: none;
+    min-width: 0;
+  }
+
+  .my-list-hero .my-list-copy h1 {
+    font-size: 1.65rem !important;
+  }
+
+  .my-list-hero .my-list-copy p {
+    font-size: 0.76rem;
+  }
+
+  .my-list-art {
+    flex: 0 0 100px;
+    width: 100px;
+    height: 122px;
+    margin-right: 0;
+  }
+
+  .my-list-art-glow {
+    right: 0;
+    width: 92px;
+  }
+
+  .my-list-poster {
+    top: 24px;
+    width: 52px;
+    height: 78px;
+    border-radius: 9px;
+  }
+
+  .my-list-poster:nth-child(1) {
+    left: 0;
+    transform: rotate(-12deg) translateY(5px);
+  }
+
+  .my-list-poster:nth-child(2) {
+    left: 23px;
+    top: 16px;
+  }
+
+  .my-list-poster:nth-child(3) {
+    left: 46px;
+    transform: rotate(12deg) translateY(5px);
+  }
+
+  .my-list-poster b {
+    font-size: 2rem;
+  }
+
+  .my-list-poster span {
+    right: 2px;
+    bottom: 5px;
+    left: 2px;
+    font-size: 0.4rem;
+  }
+
+  .my-list-art-count {
+    right: 0;
+    bottom: 0;
+    padding: 5px 8px;
+  }
+
+  .my-list-art-count span {
+    display: none;
+  }
+
   .hero .hp {
     display: none;
   }
@@ -738,6 +953,29 @@ select:hover, .chip:hover { border-color: var(--acc); transform: translateY(-2px
 
   .hero {
     padding: 16px;
+  }
+
+  .hero.my-list-hero {
+    gap: 4px;
+    padding: 16px 12px;
+  }
+
+  .my-list-art {
+    flex-basis: 88px;
+    width: 88px;
+  }
+
+  .my-list-poster {
+    width: 47px;
+    height: 72px;
+  }
+
+  .my-list-poster:nth-child(2) {
+    left: 20px;
+  }
+
+  .my-list-poster:nth-child(3) {
+    left: 40px;
   }
 
   .hero .acts {

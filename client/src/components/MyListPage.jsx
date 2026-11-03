@@ -79,10 +79,23 @@ export const MyListPage = ({ onSelect }) => {
     return `linear-gradient(150deg, hsl(${hue[0]} 80% 55%), hsl(${hue[1]} 85% 45%))`;
   };
 
+  const showcaseItems = myList.length
+    ? myList.slice(0, 3).map((item) => ({
+        key: item.key,
+        title: item.titleSnapshot?.title || 'Your next favorite',
+        poster: item.titleSnapshot?.posterUrl || item.posterUrl,
+        hue: item.titleSnapshot?.hue,
+      }))
+    : [
+        { key: 'anime', title: 'Anime', hue: [270, 330] },
+        { key: 'drama', title: 'Drama', hue: [175, 225] },
+        { key: 'saved', title: 'Favorites', hue: [325, 15] },
+      ];
+
   return (
     <div>
-      <div className="hero list">
-        <div className="ht">
+      <div className="hero list my-list-hero">
+        <div className="ht my-list-copy">
           <small>✦ Your library</small>
           <h1 style={{ fontSize: '2.2rem', margin: '10px 0 6px', color: '#fff' }}>My List</h1>
           <p style={{ opacity: 0.9, fontSize: '0.9rem', marginBottom: '16px' }}>
@@ -92,6 +105,26 @@ export const MyListPage = ({ onSelect }) => {
             <button className="btn-surprise" onClick={handleSurpriseMe}>
               🎲 Surprise me
             </button>
+          </div>
+        </div>
+        <div className="my-list-art" aria-hidden="true">
+          <div className="my-list-art-glow"></div>
+          <div className="my-list-posters">
+            {showcaseItems.map((showcaseItem) => (
+              <div
+                className="my-list-poster"
+                key={showcaseItem.key}
+                style={{ background: getGradient(showcaseItem.hue) }}
+              >
+                {showcaseItem.poster && <img src={showcaseItem.poster} alt="" />}
+                <b>{showcaseItem.title[0]}</b>
+                <span>{showcaseItem.title}</span>
+              </div>
+            ))}
+          </div>
+          <div className="my-list-art-count">
+            <b>{totalTitles}</b>
+            <span>{totalTitles === 1 ? 'title saved' : 'titles saved'}</span>
           </div>
         </div>
       </div>
