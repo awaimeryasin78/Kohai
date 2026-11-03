@@ -23,7 +23,7 @@ export const AppProvider = ({ children }) => {
   const loadList = async () => {
     try {
       const data = await fetchMyList();
-      // Safely extract the array from the backend response object
+      // Extract array safely if wrapped inside an object
       setMyList(data.data || data || []);
     } catch (err) {
       console.error('Error loading list:', err);
@@ -42,15 +42,15 @@ export const AppProvider = ({ children }) => {
       rating: rating,
       priority: 1,
       titleSnapshot: {
-        title: mediaItem.title,
-        year: mediaItem.year,
-        score: mediaItem.score,
-        episodes: mediaItem.episodes,
-        genre: mediaItem.genre,
-        synopsis: mediaItem.synopsis,
-        studioOrNetwork: mediaItem.studioOrNetwork,
-        hue: mediaItem.hue,
-        posterUrl: mediaItem.posterUrl, // <-- Add this line!
+        title: mediaItem.title || mediaItem.titleSnapshot?.title,
+        year: mediaItem.year || mediaItem.titleSnapshot?.year,
+        score: mediaItem.score || mediaItem.titleSnapshot?.score,
+        episodes: mediaItem.episodes || mediaItem.titleSnapshot?.episodes,
+        genre: mediaItem.genre || mediaItem.titleSnapshot?.genre,
+        synopsis: mediaItem.synopsis || mediaItem.titleSnapshot?.synopsis,
+        studioOrNetwork: mediaItem.studioOrNetwork || mediaItem.titleSnapshot?.studioOrNetwork,
+        hue: mediaItem.hue || mediaItem.titleSnapshot?.hue,
+        posterUrl: mediaItem.posterUrl || mediaItem.titleSnapshot?.posterUrl,
       },
     };
     await saveToMyList(payload);

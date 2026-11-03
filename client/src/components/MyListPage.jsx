@@ -1,18 +1,14 @@
-// client/src/components/MyListPage.jsx
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { Card } from './Card';
 
 export const MyListPage = ({ onSelect }) => {
   const { myList: rawList, removeItem, addItem } = useApp();
-  
-  // Protects file if rawList is undefined
   const myList = rawList || []; 
 
   const [seg, setSeg] = useState('all');
   const [view, setView] = useState('grid');
 
-  const filteredList = myList.filter(item => item.status === 'watching');
   const watched = myList.filter((item) => item.status === 'w');
   const toWatch = myList.filter((item) => item.status === 't');
 
@@ -68,7 +64,7 @@ export const MyListPage = ({ onSelect }) => {
       synopsis: picked.titleSnapshot?.synopsis,
       studioOrNetwork: picked.titleSnapshot?.studioOrNetwork,
       hue: picked.titleSnapshot?.hue,
-      posterUrl: picked.titleSnapshot?.posterUrl,
+      posterUrl: picked.titleSnapshot?.posterUrl || picked.posterUrl,
     });
   };
 
@@ -122,27 +118,40 @@ export const MyListPage = ({ onSelect }) => {
           <div
             className="ring"
             style={{
-              background: `conic-gradient(var(--anime) 0 ${animePercent}%, var(--drama) ${animePercent}% 100%)`,
+              background: `conic-gradient(var(--anime, #7C5CFF) 0 ${animePercent}%, var(--drama, #FF5C8A) ${animePercent}% 100%)`,
             }}
           ></div>
           <div className="lg">
-            <div><i style={{ background: 'var(--anime)' }}></i>Anime {totalTitles ? animePercent : 0}%</div>
-            <div><i style={{ background: 'var(--drama)' }}></i>Drama {totalTitles ? 100 - animePercent : 0}%</div>
+            <div><i style={{ background: 'var(--anime, #7C5CFF)' }}></i>Anime {totalTitles ? animePercent : 0}%</div>
+            <div><i style={{ background: 'var(--drama, #FF5C8A)' }}></i>Drama {totalTitles ? 100 - animePercent : 0}%</div>
           </div>
         </div>
 
         <div className="panel">
-          <small>Top genres</small>
-          <div className="gb">
+          <small style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem' }}>Top genres</small>
+          <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {topGenres.length > 0 ? (
               topGenres.map(([g, count]) => (
-                <div key={g} style={{ marginBottom: '6px' }}>
-                  <span>{g} ({count})</span>
-                  <div style={{ width: `${(count / maxGenreCount) * 100}%` }}></div>
+                <div key={g} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', color: '#fff' }}>
+                    <span>{g}</span>
+                    <span style={{ opacity: 0.6 }}>{count}</span>
+                  </div>
+                  <div style={{ height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '10px', overflow: 'hidden' }}>
+                    <div
+                      style={{
+                        height: '100%',
+                        width: `${(count / maxGenreCount) * 100}%`,
+                        background: 'linear-gradient(90deg, #7C5CFF, #FF5C8A)',
+                        borderRadius: '10px',
+                        transition: 'width 0.3s ease',
+                      }}
+                    ></div>
+                  </div>
                 </div>
               ))
             ) : (
-              <small>No data yet</small>
+              <small style={{ opacity: 0.6 }}>No data yet</small>
             )}
           </div>
         </div>
@@ -196,7 +205,7 @@ export const MyListPage = ({ onSelect }) => {
                 synopsis: item.titleSnapshot?.synopsis,
                 studioOrNetwork: item.titleSnapshot?.studioOrNetwork,
                 hue: item.titleSnapshot?.hue,
-                posterUrl: item.titleSnapshot?.posterUrl,
+                posterUrl: item.titleSnapshot?.posterUrl || item.posterUrl,
               }}
               onSelect={(x) => onSelect(x)}
             />
@@ -220,7 +229,7 @@ export const MyListPage = ({ onSelect }) => {
                   synopsis: item.titleSnapshot?.synopsis,
                   studioOrNetwork: item.titleSnapshot?.studioOrNetwork,
                   hue: item.titleSnapshot?.hue,
-                  posterUrl: item.titleSnapshot?.posterUrl,
+                  posterUrl: item.titleSnapshot?.posterUrl || item.posterUrl,
                 })
               }
             >
@@ -230,12 +239,16 @@ export const MyListPage = ({ onSelect }) => {
                   background: getGradient(item.titleSnapshot?.hue),
                   position: 'relative',
                   overflow: 'hidden',
+                  width: '48px',
+                  height: '64px',
+                  borderRadius: '8px',
+                  flexShrink: 0,
                 }}
               >
-                {item.titleSnapshot?.posterUrl && (
+                {(item.titleSnapshot?.posterUrl || item.posterUrl) && (
                   <img
-                    src={item.titleSnapshot.posterUrl}
-                    alt={item.titleSnapshot.title}
+                    src={item.titleSnapshot?.posterUrl || item.posterUrl}
+                    alt={item.titleSnapshot?.title}
                     style={{
                       position: 'absolute',
                       inset: 0,
@@ -253,7 +266,7 @@ export const MyListPage = ({ onSelect }) => {
                 </small>
                 <div>
                   {item.status === 'w' ? (
-                    <span className="stars" style={{ color: 'var(--gold)' }}>
+                    <span className="stars" style={{ color: 'var(--gold, #FFD700)' }}>
                       {'★'.repeat(item.rating || 0)}
                     </span>
                   ) : (
@@ -280,7 +293,7 @@ export const MyListPage = ({ onSelect }) => {
                         synopsis: item.titleSnapshot?.synopsis,
                         studioOrNetwork: item.titleSnapshot?.studioOrNetwork,
                         hue: item.titleSnapshot?.hue,
-                        posterUrl: item.titleSnapshot?.posterUrl,
+                        posterUrl: item.titleSnapshot?.posterUrl || item.posterUrl,
                       },
                       'w',
                       9

@@ -47,6 +47,7 @@ const listItemSchema = new mongoose.Schema(
       synopsis: { type: String },
       studioOrNetwork: { type: String },
       hue: [{ type: Number }], // Color gradient hues from prototype [h1, h2]
+      posterUrl: { type: String, default: '' }, // <-- Allows Mongoose to save poster URLs!
     },
   },
   {
