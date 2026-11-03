@@ -23,7 +23,8 @@ export const AppProvider = ({ children }) => {
   const loadList = async () => {
     try {
       const data = await fetchMyList();
-      setMyList(data);
+      // Safely extract the array from the backend response object
+      setMyList(data.data || data || []);
     } catch (err) {
       console.error('Error loading list:', err);
     }

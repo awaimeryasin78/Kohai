@@ -294,11 +294,10 @@ select:hover, .chip:hover { border-color: var(--acc); transform: translateY(-2px
   gap: 22px;
 }
 
-/* ====================================================
-   CINEMATIC ACCENT CURTAIN WIPE & TEXT FADE-IN
-   ==================================================== */
+
 .card {
   position: relative;
+  min-width: 0;
   border-radius: 22px;
   background: var(--glass);
   backdrop-filter: blur(14px);
@@ -315,15 +314,23 @@ select:hover, .chip:hover { border-color: var(--acc); transform: translateY(-2px
 }
 
 .card .poster {
-  aspect-ratio: 2/3;
+  aspect-ratio: 2 / 3;
+  min-height: 220px;
   display: flex;
   align-items: flex-end;
-  padding: 14px;
+  padding: 18px;
   color: #fff;
-  font: 800 1.15rem Sora, sans-serif;
+  font: 800 1.2rem Sora, sans-serif;
   line-height: 1.1;
   position: relative;
   overflow: hidden;
+}
+
+.card .poster span {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
 }
 
 /* Curtain Wipe Color Panel Overlay */

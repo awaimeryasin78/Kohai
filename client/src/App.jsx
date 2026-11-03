@@ -24,13 +24,16 @@ function MainContent() {
     }
   }, [page]);
 
-  const loadData = async () => {
+const loadData = async () => {
     setLoading(true);
     try {
       let data = [];
       if (page === 'anime') data = await fetchAnimeList();
       else if (page === 'drama') data = await fetchDramaList();
-      setItems(data);
+      
+      // Safely extract the array from the backend response object
+      // If data.data exists, use it. Otherwise fallback to data or an empty array.
+      setItems(data.data || data || []);
     } catch (err) {
       console.error('Error fetching data:', err);
     } finally {
