@@ -1,12 +1,18 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
-export const fetchAnimeList = async () => {
-  const res = await fetch(`${API_BASE_URL}/api/anime`);
+export const fetchAnimeList = async (query = '') => {
+  const url = query
+    ? `${API_BASE_URL}/api/anime?q=${encodeURIComponent(query)}`
+    : `${API_BASE_URL}/api/anime`;
+  const res = await fetch(url);
   return res.json();
 };
 
-export const fetchDramaList = async () => {
-  const res = await fetch(`${API_BASE_URL}/api/drama`);
+export const fetchDramaList = async (query = '') => {
+  const url = query
+    ? `${API_BASE_URL}/api/drama?q=${encodeURIComponent(query)}`
+    : `${API_BASE_URL}/api/drama`;
+  const res = await fetch(url);
   return res.json();
 };
 

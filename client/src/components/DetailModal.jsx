@@ -91,8 +91,8 @@ export const DetailModal = ({ item, onClose }) => {
             </button>
           )}
 
-          <button className="btn close-btn" onClick={onClose}>
-            Close
+          <button className="btn close-btn" onClick={onClose} aria-label="Close details">
+            ×
           </button>
         </div>
       </div>

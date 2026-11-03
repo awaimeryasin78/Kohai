@@ -18,21 +18,23 @@ function MainContent() {
   const [loading, setLoading] = useState(true);
 
   // Load Data on Page Switch
+  // Load Data on Page Switch or Search Query Change (with 350ms debounce)
   useEffect(() => {
     if (page !== 'list') {
-      loadData();
+      const timer = setTimeout(() => {
+        loadData();
+      }, 350);
+      return () => clearTimeout(timer);
     }
-  }, [page]);
+  }, [page, searchQuery]);
 
-const loadData = async () => {
+  const loadData = async () => {
     setLoading(true);
     try {
       let data = [];
-      if (page === 'anime') data = await fetchAnimeList();
-      else if (page === 'drama') data = await fetchDramaList();
+      if (page === 'anime') data = await fetchAnimeList(searchQuery);
+      else if (page === 'drama') data = await fetchDramaList(searchQuery);
       
-      // Safely extract the array from the backend response object
-      // If data.data exists, use it. Otherwise fallback to data or an empty array.
       setItems(data.data || data || []);
     } catch (err) {
       console.error('Error fetching data:', err);
