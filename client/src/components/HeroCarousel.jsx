@@ -16,8 +16,31 @@ export const HeroCarousel = ({ items, onSelect }) => {
 
   return (
     <div className={`hero ${page}`}>
-      <div className="hp" style={{ background: getGradient(activeItem.hue) }}>
-        <b>{activeItem.title[0]}</b>
+      <div 
+        className="hp" 
+        style={{ 
+          background: getGradient(activeItem.hue), 
+          position: 'relative', 
+          overflow: 'hidden' 
+        }}
+      >
+        {activeItem.posterUrl ? (
+          <img
+            src={activeItem.posterUrl}
+            alt={activeItem.title}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+            onError={(e) => {
+              e.target.style.display = 'none';
+            }}
+          />
+        ) : null}
+        <b>{activeItem.title?.[0] || '?'}</b>
       </div>
 
       <div className="ht">

@@ -1,3 +1,4 @@
+// client/src/components/MyListPage.jsx
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { Card } from './Card';
@@ -5,20 +6,20 @@ import { Card } from './Card';
 export const MyListPage = ({ onSelect }) => {
   const { myList: rawList, removeItem, addItem } = useApp();
   
-  // This single line protects the entire file! If rawList is undefined, it becomes an empty array.
+  // Protects file if rawList is undefined
   const myList = rawList || []; 
 
   const [seg, setSeg] = useState('all');
   const [view, setView] = useState('grid');
 
-      const filteredList = myList?.filter(item => item.status === 'watching') || [];
-      const watched = myList?.filter((item) => item.status === 'w') || [];
-      const toWatch = myList?.filter((item) => item.status === 't') || [];
+  const filteredList = myList.filter(item => item.status === 'watching');
+  const watched = myList.filter((item) => item.status === 'w');
+  const toWatch = myList.filter((item) => item.status === 't');
 
-      const totalTitles = myList.length;
-      const totalWatched = watched.length;
+  const totalTitles = myList.length;
+  const totalWatched = watched.length;
 
-      const totalHours = Math.round(
+  const totalHours = Math.round(
     watched.reduce((acc, item) => {
       const ep = item.titleSnapshot?.episodes || 12;
       const factor = item.mediaType === 'anime' ? 0.4 : 1.0;
@@ -59,14 +60,15 @@ export const MyListPage = ({ onSelect }) => {
     const picked = toWatch[randomIndex];
     onSelect({
       key: picked.key,
-      title: picked.titleSnapshot.title,
-      year: picked.titleSnapshot.year,
-      score: picked.titleSnapshot.score,
-      episodes: picked.titleSnapshot.episodes,
-      genre: picked.titleSnapshot.genre,
-      synopsis: picked.titleSnapshot.synopsis,
-      studioOrNetwork: picked.titleSnapshot.studioOrNetwork,
-      hue: picked.titleSnapshot.hue,
+      title: picked.titleSnapshot?.title,
+      year: picked.titleSnapshot?.year,
+      score: picked.titleSnapshot?.score,
+      episodes: picked.titleSnapshot?.episodes,
+      genre: picked.titleSnapshot?.genre,
+      synopsis: picked.titleSnapshot?.synopsis,
+      studioOrNetwork: picked.titleSnapshot?.studioOrNetwork,
+      hue: picked.titleSnapshot?.hue,
+      posterUrl: picked.titleSnapshot?.posterUrl,
     });
   };
 
@@ -186,14 +188,15 @@ export const MyListPage = ({ onSelect }) => {
               index={index}
               item={{
                 key: item.key,
-                title: item.titleSnapshot.title,
-                year: item.titleSnapshot.year,
-                score: item.titleSnapshot.score,
-                episodes: item.titleSnapshot.episodes,
-                genre: item.titleSnapshot.genre,
-                synopsis: item.titleSnapshot.synopsis,
-                studioOrNetwork: item.titleSnapshot.studioOrNetwork,
-                hue: item.titleSnapshot.hue,
+                title: item.titleSnapshot?.title,
+                year: item.titleSnapshot?.year,
+                score: item.titleSnapshot?.score,
+                episodes: item.titleSnapshot?.episodes,
+                genre: item.titleSnapshot?.genre,
+                synopsis: item.titleSnapshot?.synopsis,
+                studioOrNetwork: item.titleSnapshot?.studioOrNetwork,
+                hue: item.titleSnapshot?.hue,
+                posterUrl: item.titleSnapshot?.posterUrl,
               }}
               onSelect={(x) => onSelect(x)}
             />
@@ -209,25 +212,44 @@ export const MyListPage = ({ onSelect }) => {
               onClick={() =>
                 onSelect({
                   key: item.key,
-                  title: item.titleSnapshot.title,
-                  year: item.titleSnapshot.year,
-                  score: item.titleSnapshot.score,
-                  episodes: item.titleSnapshot.episodes,
-                  genre: item.titleSnapshot.genre,
-                  synopsis: item.titleSnapshot.synopsis,
-                  studioOrNetwork: item.titleSnapshot.studioOrNetwork,
-                  hue: item.titleSnapshot.hue,
+                  title: item.titleSnapshot?.title,
+                  year: item.titleSnapshot?.year,
+                  score: item.titleSnapshot?.score,
+                  episodes: item.titleSnapshot?.episodes,
+                  genre: item.titleSnapshot?.genre,
+                  synopsis: item.titleSnapshot?.synopsis,
+                  studioOrNetwork: item.titleSnapshot?.studioOrNetwork,
+                  hue: item.titleSnapshot?.hue,
+                  posterUrl: item.titleSnapshot?.posterUrl,
                 })
               }
             >
               <div
                 className="mini"
-                style={{ background: getGradient(item.titleSnapshot?.hue) }}
-              ></div>
+                style={{
+                  background: getGradient(item.titleSnapshot?.hue),
+                  position: 'relative',
+                  overflow: 'hidden',
+                }}
+              >
+                {item.titleSnapshot?.posterUrl && (
+                  <img
+                    src={item.titleSnapshot.posterUrl}
+                    alt={item.titleSnapshot.title}
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                  />
+                )}
+              </div>
               <div className="t">
-                <h3>{item.titleSnapshot.title}</h3>
+                <h3>{item.titleSnapshot?.title}</h3>
                 <small>
-                  {item.mediaType} · {item.titleSnapshot.year} · ★ {item.titleSnapshot.score}
+                  {item.mediaType} · {item.titleSnapshot?.year} · ★ {item.titleSnapshot?.score}
                 </small>
                 <div>
                   {item.status === 'w' ? (
@@ -250,14 +272,15 @@ export const MyListPage = ({ onSelect }) => {
                     addItem(
                       {
                         key: item.key,
-                        title: item.titleSnapshot.title,
-                        year: item.titleSnapshot.year,
-                        score: item.titleSnapshot.score,
-                        episodes: item.titleSnapshot.episodes,
-                        genre: item.titleSnapshot.genre,
-                        synopsis: item.titleSnapshot.synopsis,
-                        studioOrNetwork: item.titleSnapshot.studioOrNetwork,
-                        hue: item.titleSnapshot.hue,
+                        title: item.titleSnapshot?.title,
+                        year: item.titleSnapshot?.year,
+                        score: item.titleSnapshot?.score,
+                        episodes: item.titleSnapshot?.episodes,
+                        genre: item.titleSnapshot?.genre,
+                        synopsis: item.titleSnapshot?.synopsis,
+                        studioOrNetwork: item.titleSnapshot?.studioOrNetwork,
+                        hue: item.titleSnapshot?.hue,
+                        posterUrl: item.titleSnapshot?.posterUrl,
                       },
                       'w',
                       9

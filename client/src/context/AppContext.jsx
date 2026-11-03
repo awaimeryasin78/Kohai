@@ -50,6 +50,7 @@ export const AppProvider = ({ children }) => {
         synopsis: mediaItem.synopsis,
         studioOrNetwork: mediaItem.studioOrNetwork,
         hue: mediaItem.hue,
+        posterUrl: mediaItem.posterUrl, // <-- Add this line!
       },
     };
     await saveToMyList(payload);

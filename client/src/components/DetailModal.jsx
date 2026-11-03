@@ -2,90 +2,75 @@ import React from 'react';
 import { useApp } from '../context/AppContext';
 
 export const DetailModal = ({ item, onClose }) => {
-  const { addItem, removeItem, myList } = useApp();
+  const { myList, addItem, removeItem } = useApp();
 
   if (!item) return null;
 
-  const inList = myList.find((x) => x.key === item.key);
+  const inList = myList?.find((x) => x.key === item.key);
 
-  const getGradient = (hue) => {
-    if (!hue || !hue.length) return 'linear-gradient(150deg, #7C5CFF, #FF5C8A)';
-    return `linear-gradient(150deg, hsl(${hue[0]} 80% 55%), hsl(${hue[1]} 85% 45%))`;
+  const title = item.title || item.titleSnapshot?.title || 'Untitled';
+  const poster = item.posterUrl || item.titleSnapshot?.posterUrl;
+  const score = item.score ?? item.titleSnapshot?.score ?? 'N/A';
+  const studioOrNetwork = item.studioOrNetwork || item.titleSnapshot?.studioOrNetwork || 'N/A';
+  const episodes = item.episodes ?? item.titleSnapshot?.episodes ?? 12;
+  const year = item.year || item.titleSnapshot?.year || '';
+  const genre = item.genre || item.titleSnapshot?.genre || '';
+  const synopsis = item.synopsis || item.titleSnapshot?.synopsis || 'No synopsis available.';
+  const hue = item.hue || item.titleSnapshot?.hue;
+
+  const getGradient = (h) => {
+    if (!h || !h.length) return 'linear-gradient(150deg, #7C5CFF, #FF5C8A)';
+    return `linear-gradient(150deg, hsl(${h[0]} 80% 55%), hsl(${h[1]} 85% 45%))`;
   };
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 50,
-        display: 'grid',
-        placeItems: 'center',
-        background: 'rgba(10, 8, 25, 0.65)',
-        backdropFilter: 'blur(10px)',
-        padding: '16px',
-      }}
-      onClick={onClose}
-    >
-      <div
-        style={{
-          width: 'min(640px, 100%)',
-          maxHeight: '92vh',
-          overflow: 'auto',
-          background: 'var(--surface)',
-          borderRadius: '28px',
-          padding: '24px',
-          border: '1px solid var(--line)',
-        }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div style={{ display: 'flex', gap: '18px' }}>
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content glass-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">
           <div
-            style={{
-              width: '130px',
-              aspectRatio: '2/3',
-              borderRadius: '18px',
-              background: getGradient(item.hue),
-              display: 'grid',
-              placeItems: 'center',
-              fontWeight: '800',
-              fontSize: '3rem',
-              color: '#fff',
-              flex: 'none',
-            }}
+            className="modal-poster"
+            style={{ background: getGradient(hue) }}
           >
-            {item.title[0]}
+            {poster ? (
+              <img
+                src={poster}
+                alt={title}
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
+            ) : (
+              <b>{title?.[0] || '?'}</b>
+            )}
           </div>
 
-          <div>
-            <h2 style={{ fontSize: '1.4rem', color: 'var(--text)' }}>{item.title}</h2>
-            <div style={{ margin: '12px 0', fontSize: '0.85rem', color: 'var(--muted)' }}>
-              <p>Score: <b style={{ color: 'var(--gold)' }}>★ {item.score}</b></p>
-              <p>Studio/Network: <b style={{ color: 'var(--text)' }}>{item.studioOrNetwork}</b></p>
-              <p>Episodes: <b style={{ color: 'var(--text)' }}>{item.episodes}</b></p>
-              <p>Year & Genre: <b style={{ color: 'var(--text)' }}>{item.year} · {item.genre}</b></p>
+          <div className="modal-info">
+            <h2>{title}</h2>
+            <div className="modal-meta">
+              <p><span>Score:</span> ★ <b>{score}</b></p>
+              <p><span>Studio / Network:</span> <b>{studioOrNetwork}</b></p>
+              <p><span>Episodes:</span> <b>{episodes}</b></p>
+              <p><span>Year & Genre:</span> <b>{year} · {genre}</b></p>
             </div>
           </div>
         </div>
 
-        <p style={{ color: 'var(--muted)', lineHeight: '1.6', margin: '16px 0' }}>
-          {item.synopsis}
-        </p>
+        <p className="modal-synopsis">{synopsis}</p>
 
-        <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+        <div className="modal-actions">
           {!inList ? (
             <>
               <button
-                className="btn big"
+                className="btn"
                 onClick={() => {
                   addItem(item, 'w', 9);
                   onClose();
                 }}
               >
-                ✓ Mark Watched
+                ✓ Watched
               </button>
               <button
-                className="btn alt big"
+                className="btn alt"
                 onClick={() => {
                   addItem(item, 't');
                   onClose();
@@ -96,16 +81,17 @@ export const DetailModal = ({ item, onClose }) => {
             </>
           ) : (
             <button
-              className="btn alt big"
+              className="btn alt danger"
               onClick={() => {
                 removeItem(item.key);
                 onClose();
               }}
             >
-              Remove from Library
+              ✕ Remove from Library
             </button>
           )}
-          <button className="btn alt big" onClick={onClose}>
+
+          <button className="btn close-btn" onClick={onClose}>
             Close
           </button>
         </div>

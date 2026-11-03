@@ -4,11 +4,21 @@ import { useApp } from '../context/AppContext';
 export const Card = ({ item, index = 0, onSelect }) => {
   const { myList, addItem, removeItem } = useApp();
 
-  const inList = myList.find((x) => x.key === item.key);
+  if (!item) return null;
 
-  const getGradient = (hue) => {
-    if (!hue || !hue.length) return 'linear-gradient(150deg, #7C5CFF, #FF5C8A)';
-    return `linear-gradient(150deg, hsl(${hue[0]} 80% 55%), hsl(${hue[1]} 85% 45%))`;
+  const inList = myList?.find((x) => x.key === item.key);
+
+  const title = item.title || item.titleSnapshot?.title || 'Untitled';
+  const poster = item.posterUrl || item.titleSnapshot?.posterUrl;
+  const year = item.year || item.titleSnapshot?.year || '';
+  const episodes = item.episodes || item.titleSnapshot?.episodes || 12;
+  const genre = item.genre || item.titleSnapshot?.genre || '';
+  const score = item.score || item.titleSnapshot?.score || 8.0;
+  const hue = item.hue || item.titleSnapshot?.hue;
+
+  const getGradient = (h) => {
+    if (!h || !h.length) return 'linear-gradient(150deg, #7C5CFF, #FF5C8A)';
+    return `linear-gradient(150deg, hsl(${h[0]} 80% 55%), hsl(${h[1]} 85% 45%))`;
   };
 
   const handleWatched = (e) => {
@@ -29,54 +39,53 @@ export const Card = ({ item, index = 0, onSelect }) => {
   return (
     <div
       className="card"
-      onClick={() => onSelect(item)}
-      style={{ '--stagger-delay': `${index * 60}ms` }}
+      onClick={() => onSelect && onSelect(item)}
+      style={{ '--stagger-delay': `${index * 60}ms`, cursor: 'pointer' }}
     >
-      <div className="poster" style={{ background: getGradient(item.hue) }}>
-        <b>{item.title[0]}</b>
-        <span>{item.title}</span>
+      <div 
+        className="poster" 
+        style={{ 
+          background: getGradient(hue), 
+          position: 'relative', 
+          overflow: 'hidden' 
+        }}
+      >
+        {poster ? (
+          <img
+            src={poster}
+            alt={title}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover'
+            }}
+            onError={(e) => {
+              e.target.style.display = 'none';
+            }}
+          />
+        ) : (
+          <b style={{ fontSize: '2.2rem', color: '#fff', opacity: 0.8 }}>{title?.[0] || '?'}</b>
+        )}
       </div>
 
-      <div className="score">★ {item.score}</div>
+      <div className="score">★ {score}</div>
 
       {inList && (
-        <div
-          style={{
-            position: 'absolute',
-            top: '12px',
-            right: '12px',
-            background: 'var(--acc)',
-            color: '#fff',
-            padding: '4px 10px',
-            borderRadius: '999px',
-            fontSize: '0.68rem',
-            fontWeight: '700',
-            zIndex: 6,
-          }}
-        >
+        <div className="card-status">
           {inList.status === 'w' ? '✓ Watched' : '🕒 Queued'}
         </div>
       )}
 
-      <div className="card-body" style={{ padding: '12px 14px 14px', fontSize: '0.78rem', color: 'var(--muted)' }}>
-        <h3
-          style={{
-            fontSize: '0.95rem',
-            color: 'var(--text)',
-            marginBottom: '4px',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-          }}
-        >
-          {item.title}
-        </h3>
+      <div className="card-body">
+        <h3 className="card-title">{title}</h3>
 
-        <div style={{ marginBottom: '10px' }}>
-          {item.year} · {item.episodes} eps · {item.genre}
+        <div className="card-meta">
+          {year} · {episodes} eps · {genre}
         </div>
 
-        <div style={{ display: 'flex', gap: '8px' }}>
+        <div className="card-actions">
           {!inList ? (
             <>
               <button className="btn" onClick={handleWatched}>

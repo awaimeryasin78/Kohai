@@ -51,5 +51,28 @@ const fetchTrendingDrama = async () => {
     return [];
   }
 };
+const searchMedia = async (query) => {
+  const apiKey = process.env.TMDB_API_KEY;
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&query=${encodeURIComponent(query)}`
+    );
+    return response.data.results.map((item, index) => ({
+      key: `search:${item.id}`,
+      title: item.name,
+      year: parseInt(item.first_air_date?.split('-')[0]) || 2023,
+      score: Math.round(item.vote_average * 10) / 10 || 7.5,
+      episodes: 12,
+      genre: 'Search Result',
+      synopsis: item.overview || 'No synopsis available.',
+      studioOrNetwork: 'TMDB',
+      posterUrl: item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : '',
+      hue: [200, 260],
+    }));
+  } catch (error) {
+    console.error('Error searching TMDB:', error.message);
+    return [];
+  }
+};
 
 module.exports = { fetchTrendingAnime, fetchTrendingDrama };

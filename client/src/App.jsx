@@ -91,7 +91,8 @@ const loadData = async () => {
   const filteredItems = items
     .filter(
       (x) =>
-        x.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        x.title &&
+        x.title.toLowerCase().includes((searchQuery || '').toLowerCase()) &&
         (genre === 'All' || x.genre === genre)
     )
     .sort((a, b) =>
