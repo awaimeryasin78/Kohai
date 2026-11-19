@@ -16,6 +16,7 @@ function MainContent() {
   const [genre, setGenre] = useState('All');
   const [sort, setSort] = useState('score');
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
 
   // Load Data on Page Switch
   // Load Data on Page Switch or Search Query Change (with 350ms debounce)
@@ -30,14 +31,21 @@ function MainContent() {
 
   const loadData = async () => {
     setLoading(true);
+    setLoadError('');
     try {
       let data = [];
       if (page === 'anime') data = await fetchAnimeList(searchQuery);
       else if (page === 'drama') data = await fetchDramaList(searchQuery);
-      
-      setItems(data.data || data || []);
+
+      const results = Array.isArray(data) ? data : data?.data;
+      if (!Array.isArray(results)) {
+        throw new Error('The backend returned an unexpected response.');
+      }
+      setItems(results);
     } catch (err) {
       console.error('Error fetching data:', err);
+      setItems([]);
+      setLoadError(err instanceof Error ? err.message : 'Unable to load titles from the backend.');
     } finally {
       setLoading(false);
     }
@@ -128,6 +136,10 @@ function MainContent() {
 
             {loading ? (
               <p style={{ color: 'var(--muted)', marginTop: '20px' }}>Loading titles from backend...</p>
+            ) : loadError ? (
+              <p className="empty" role="alert">{loadError}</p>
+            ) : filteredItems.length === 0 ? (
+              <p className="empty">No titles found.</p>
             ) : (
               <div className="grid">
                 {filteredItems.map((item, index) => (
