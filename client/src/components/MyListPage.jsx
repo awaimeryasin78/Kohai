@@ -75,7 +75,7 @@ export const MyListPage = ({ onSelect }) => {
   });
 
   const getGradient = (hue) => {
-    if (!hue || !hue.length) return 'linear-gradient(150deg, #7C5CFF, #FF5C8A)';
+    if (!hue || !hue.length) return 'linear-gradient(150deg, var(--primary), var(--anime))';
     return `linear-gradient(150deg, hsl(${hue[0]} 80% 55%), hsl(${hue[1]} 85% 45%))`;
   };
 
@@ -151,31 +151,31 @@ export const MyListPage = ({ onSelect }) => {
           <div
             className="ring"
             style={{
-              background: `conic-gradient(var(--anime, #7C5CFF) 0 ${animePercent}%, var(--drama, #FF5C8A) ${animePercent}% 100%)`,
+              background: `conic-gradient(var(--anime) 0 ${animePercent}%, var(--drama) ${animePercent}% 100%)`,
             }}
           ></div>
           <div className="lg">
-            <div><i style={{ background: 'var(--anime, #7C5CFF)' }}></i>Anime {totalTitles ? animePercent : 0}%</div>
-            <div><i style={{ background: 'var(--drama, #FF5C8A)' }}></i>Drama {totalTitles ? 100 - animePercent : 0}%</div>
+            <div><i style={{ background: 'var(--anime)' }}></i>Anime {totalTitles ? animePercent : 0}%</div>
+            <div><i style={{ background: 'var(--drama)' }}></i>Drama {totalTitles ? 100 - animePercent : 0}%</div>
           </div>
         </div>
 
         <div className="panel">
-          <small style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem' }}>Top genres</small>
+          <small style={{ color: 'var(--muted)', fontSize: '0.8rem' }}>Top genres</small>
           <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {topGenres.length > 0 ? (
               topGenres.map(([g, count]) => (
                 <div key={g} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', color: '#fff' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', color: 'var(--text)' }}>
                     <span>{g}</span>
                     <span style={{ opacity: 0.6 }}>{count}</span>
                   </div>
-                  <div style={{ height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '10px', overflow: 'hidden' }}>
+                  <div style={{ height: '6px', background: 'var(--line)', borderRadius: '10px', overflow: 'hidden' }}>
                     <div
                       style={{
                         height: '100%',
                         width: `${(count / maxGenreCount) * 100}%`,
-                        background: 'linear-gradient(90deg, #7C5CFF, #FF5C8A)',
+                        background: 'linear-gradient(90deg, var(--primary), var(--anime))',
                         borderRadius: '10px',
                         transition: 'width 0.3s ease',
                       }}
@@ -299,7 +299,7 @@ export const MyListPage = ({ onSelect }) => {
                 </small>
                 <div>
                   {item.status === 'w' ? (
-                    <span className="stars" style={{ color: 'var(--gold, #FFD700)' }}>
+                    <span className="stars" style={{ color: 'var(--gold)' }}>
                       {'★'.repeat(item.rating || 0)}
                     </span>
                   ) : (

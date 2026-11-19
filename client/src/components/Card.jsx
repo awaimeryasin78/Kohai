@@ -17,7 +17,7 @@ export const Card = ({ item, index = 0, onSelect }) => {
   const hue = item.hue || item.titleSnapshot?.hue;
 
   const getGradient = (h) => {
-    if (!h || !h.length) return 'linear-gradient(150deg, #7C5CFF, #FF5C8A)';
+    if (!h || !h.length) return 'linear-gradient(150deg, var(--primary), var(--anime))';
     return `linear-gradient(150deg, hsl(${h[0]} 80% 55%), hsl(${h[1]} 85% 45%))`;
   };
 

@@ -10,7 +10,7 @@ export const HeroCarousel = ({ items, onSelect }) => {
   const activeItem = items[index % items.length];
 
   const getGradient = (hue) => {
-    if (!hue || !hue.length) return 'linear-gradient(150deg, #7C5CFF, #FF5C8A)';
+    if (!hue || !hue.length) return 'linear-gradient(150deg, var(--primary), var(--anime))';
     return `linear-gradient(150deg, hsl(${hue[0]} 80% 55%), hsl(${hue[1]} 85% 45%))`;
   };
 

@@ -6,6 +6,7 @@ import { Card } from './components/Card';
 import { MyListPage } from './components/MyListPage';
 import { DetailModal } from './components/DetailModal';
 import { ShortcutsModal } from './components/ShortcutsModal';
+import { FilterSelect } from './components/FilterSelect';
 import { fetchAnimeList, fetchDramaList } from './services/api';
 
 function MainContent() {
@@ -121,17 +122,23 @@ function MainContent() {
             <HeroCarousel items={items} onSelect={(x) => setSelectedItem(x)} />
 
             <div className="bar">
-              <select value={genre} onChange={(e) => setGenre(e.target.value)}>
-                {genres.map((g) => (
-                  <option key={g} value={g}>{g}</option>
-                ))}
-              </select>
+              <FilterSelect
+                label="Filter by genre"
+                value={genre}
+                onChange={setGenre}
+                options={genres.map((value) => ({ value, label: value }))}
+              />
 
-              <select value={sort} onChange={(e) => setSort(e.target.value)}>
-                <option value="score">Top rated</option>
-                <option value="year">Newest</option>
-                <option value="title">A–Z</option>
-              </select>
+              <FilterSelect
+                label="Sort titles"
+                value={sort}
+                onChange={setSort}
+                options={[
+                  { value: 'score', label: 'Top rated' },
+                  { value: 'year', label: 'Newest' },
+                  { value: 'title', label: 'A–Z' },
+                ]}
+              />
             </div>
 
             {loading ? (
