@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://kohai-eiys.onrender.com';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://kohai-1moe.vercel.app';
 
 export const fetchAnimeList = async (query = '') => {
   const url = query

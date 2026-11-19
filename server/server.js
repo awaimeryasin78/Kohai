@@ -26,7 +26,7 @@ app.use(cors({
 
 app.use(express.json());
 
-// Health check endpoint for Render monitoring
+// Health check endpoint for deployment monitoring
 app.get('/health', (req, res) => res.status(200).json({ status: 'healthy', timestamp: new Date() }));
 
 
