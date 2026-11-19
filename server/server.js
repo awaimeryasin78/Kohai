@@ -25,6 +25,11 @@ app.use(cors({
   credentials: true
 }));
 
+app.use('/api', (req, res, next) => {
+  res.set('Cache-Control', 'no-store');
+  next();
+});
+
 app.use(express.json());
 
 app.get('/', (req, res) => res.redirect(302, clientUrl));
