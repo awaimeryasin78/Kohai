@@ -1,7 +1,10 @@
 const API_BASE_URL = 'https://kohai-1moe.vercel.app';
 
 const request = async (path, options) => {
-  const response = await fetch(`${API_BASE_URL}${path}`, options);
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    ...options,
+    cache: 'no-store',
+  });
   if (!response.ok) {
     throw new Error(`Backend request failed (${response.status})`);
   }
