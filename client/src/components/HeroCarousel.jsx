@@ -49,7 +49,7 @@ export const HeroCarousel = ({ items, onSelect }) => {
         <p>{activeItem.synopsis?.slice(0, 160)}...</p>
 
         <div className="meta">
-          ★ {activeItem.score} · {activeItem.year} · {activeItem.genre} · {activeItem.episodes} eps
+          ★ {activeItem.score} · {activeItem.year} · {activeItem.genre} · {activeItem.episodes ?? '—'} eps
         </div>
 
         <div className="acts">

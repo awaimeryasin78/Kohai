@@ -45,7 +45,7 @@ export const AppProvider = ({ children }) => {
         title: mediaItem.title || mediaItem.titleSnapshot?.title,
         year: mediaItem.year || mediaItem.titleSnapshot?.year,
         score: mediaItem.score || mediaItem.titleSnapshot?.score,
-        episodes: mediaItem.episodes || mediaItem.titleSnapshot?.episodes,
+        episodes: mediaItem.episodes ?? mediaItem.titleSnapshot?.episodes ?? null,
         genre: mediaItem.genre || mediaItem.titleSnapshot?.genre,
         synopsis: mediaItem.synopsis || mediaItem.titleSnapshot?.synopsis,
         studioOrNetwork: mediaItem.studioOrNetwork || mediaItem.titleSnapshot?.studioOrNetwork,

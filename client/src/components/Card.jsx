@@ -11,7 +11,7 @@ export const Card = ({ item, index = 0, onSelect }) => {
   const title = item.title || item.titleSnapshot?.title || 'Untitled';
   const poster = item.posterUrl || item.titleSnapshot?.posterUrl;
   const year = item.year || item.titleSnapshot?.year || '';
-  const episodes = item.episodes || item.titleSnapshot?.episodes || 12;
+  const episodes = item.episodes ?? item.titleSnapshot?.episodes ?? null;
   const genre = item.genre || item.titleSnapshot?.genre || '';
   const score = item.score || item.titleSnapshot?.score || 8.0;
   const hue = item.hue || item.titleSnapshot?.hue;
@@ -82,7 +82,7 @@ export const Card = ({ item, index = 0, onSelect }) => {
         <h3 className="card-title">{title}</h3>
 
         <div className="card-meta">
-          {year} · {episodes} eps · {genre}
+          {year} · {episodes ?? '—'} eps · {genre}
         </div>
 
         <div className="card-actions">

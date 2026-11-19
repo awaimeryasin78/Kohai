@@ -141,7 +141,7 @@ nav {
   position: absolute;
   top: calc(100% + 10px);
   left: 0;
-  background: rgba(21, 21, 38, 0.92);
+  background: var(--surface-raised);
   backdrop-filter: blur(14px);
   border: 1px solid var(--line);
   color: var(--text);
@@ -154,7 +154,7 @@ nav {
   visibility: hidden;
   transform: translateY(-6px);
   transition: all 0.3s cubic-bezier(0.3, 1.5, 0.5, 1);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow);
   pointer-events: none;
   z-index: 100;
 }
@@ -1294,9 +1294,9 @@ kbd {
 .modal-content.glass-modal {
   position: relative;
   width: min(100%, 620px);
-  max-height: calc(100vh - 32px);
-  max-height: calc(100dvh - 32px);
-  overflow-y: auto;
+  max-height: min(680px, calc(100vh - 32px));
+  max-height: min(680px, calc(100dvh - 32px));
+  overflow: hidden;
   background: linear-gradient(135deg, color-mix(in srgb, var(--surface-raised) 96%, var(--primary)), var(--surface));
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
@@ -1317,6 +1317,7 @@ kbd {
   display: flex;
   gap: 22px;
   align-items: flex-start;
+  flex: 0 0 auto;
 }
 
 .modal-poster {
@@ -1382,6 +1383,11 @@ kbd {
 }
 
 .modal-synopsis {
+  min-height: 0;
+  max-height: min(38vh, 260px);
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   font-size: 0.92rem;
   line-height: 1.6;
   color: var(--muted);
@@ -1393,9 +1399,9 @@ kbd {
 }
 
 .modal-actions {
-  position: sticky;
-  bottom: -28px;
+  position: relative;
   z-index: 2;
+  flex: 0 0 auto;
   display: flex;
   gap: 10px;
   align-items: center;
@@ -1419,15 +1425,15 @@ kbd {
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.8);
+  background: color-mix(in srgb, var(--surface-raised) 85%, var(--text));
+  border: 1px solid var(--line);
+  color: var(--text);
   font-size: 1.35rem;
   line-height: 1;
 }
 
 .modal-actions .close-btn:hover {
-  background: rgba(255, 255, 255, 0.16);
+  background: var(--acc);
   color: #fff;
 }
 
@@ -1443,8 +1449,8 @@ kbd {
   }
 
   .modal-content.glass-modal {
-    max-height: calc(100vh - 20px);
-    max-height: calc(100dvh - 20px);
+    max-height: min(680px, calc(100vh - 20px));
+    max-height: min(680px, calc(100dvh - 20px));
     gap: 16px;
     padding: 18px;
     border-radius: 20px;
@@ -1482,7 +1488,6 @@ kbd {
   }
 
   .modal-actions {
-    bottom: -18px;
     gap: 8px;
     margin: 0 -18px -18px;
     padding: 12px 18px 16px;

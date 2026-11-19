@@ -17,7 +17,7 @@ export const MyListPage = ({ onSelect }) => {
 
   const totalHours = Math.round(
     watched.reduce((acc, item) => {
-      const ep = item.titleSnapshot?.episodes || 12;
+      const ep = item.titleSnapshot?.episodes ?? 0;
       const factor = item.mediaType === 'anime' ? 0.4 : 1.0;
       return acc + ep * factor;
     }, 0)

@@ -12,7 +12,7 @@ export const DetailModal = ({ item, onClose }) => {
   const poster = item.posterUrl || item.titleSnapshot?.posterUrl;
   const score = item.score ?? item.titleSnapshot?.score ?? 'N/A';
   const studioOrNetwork = item.studioOrNetwork || item.titleSnapshot?.studioOrNetwork || 'N/A';
-  const episodes = item.episodes ?? item.titleSnapshot?.episodes ?? 12;
+  const episodes = item.episodes ?? item.titleSnapshot?.episodes ?? null;
   const year = item.year || item.titleSnapshot?.year || '';
   const genre = item.genre || item.titleSnapshot?.genre || '';
   const synopsis = item.synopsis || item.titleSnapshot?.synopsis || 'No synopsis available.';
@@ -49,7 +49,7 @@ export const DetailModal = ({ item, onClose }) => {
             <div className="modal-meta">
               <p><span>Score:</span> ★ <b>{score}</b></p>
               <p><span>Studio / Network:</span> <b>{studioOrNetwork}</b></p>
-              <p><span>Episodes:</span> <b>{episodes}</b></p>
+              <p><span>Episodes:</span> <b>{episodes ?? 'Unavailable'}</b></p>
               <p><span>Year & Genre:</span> <b>{year} · {genre}</b></p>
             </div>
           </div>

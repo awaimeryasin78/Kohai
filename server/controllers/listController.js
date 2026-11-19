@@ -1,10 +1,27 @@
 const ListItem = require('../models/ListItem');
+const { getEpisodeCounts } = require('../services/mediaService');
 
 // 1. Get all saved items in My List
 const getMyList = async (req, res) => {
   try {
     const items = await ListItem.find().sort({ updatedAt: -1 });
-    res.json({ success: true, data: items });
+    const serializedItems = items.map((item) => item.toObject());
+    const ids = serializedItems.map((item) => item.key.match(/^[^:]+:(\d+)$/)?.[1] || null);
+    const episodeCounts = await getEpisodeCounts(ids);
+    const data = serializedItems.map((item, index) => {
+      const id = ids[index];
+      if (!id) return item;
+
+      return {
+        ...item,
+        titleSnapshot: {
+          ...item.titleSnapshot,
+          episodes: episodeCounts.get(id) ?? null,
+        },
+      };
+    });
+
+    res.json({ success: true, data });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
